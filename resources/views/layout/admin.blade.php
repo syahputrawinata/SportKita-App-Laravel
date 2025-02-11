@@ -70,9 +70,10 @@
                             </a>
                             <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="{{route('admin.AdminBrandIndex')}}">Brands</a>
-                                    <a class="nav-link" href="{{route('admin.AdminCategoryIndex')}}">Categories</a>
-                                    <a class="nav-link" href="{{route('admin.AdminProductIndex')}}">Products</a>
+                                    <a class="nav-link" href="{{route('admin.AdminBrandIndex')}}">Brand</a>
+                                    <a class="nav-link" href="{{route('admin.AdminCategoryIndex')}}">Kategori</a>
+                                    <a class="nav-link" href="{{route('admin.AdminProductIndex')}}">Produk</a>
+                                    <a class="nav-link" href="{{route('admin.AdminRackIndex')}}">Rak</a>
                                 </nav>
                             </div>
                             <div class="sb-sidenav-menu-heading">Addons</div>

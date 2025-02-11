@@ -13,9 +13,11 @@ class Product extends Model
         'name',
         'description',
         'price',
+        'image',
         'stock',
         'brand_id',
         'category_id',
+        'rack_id',
     ];
 
     public function brand()
@@ -33,5 +35,15 @@ class Product extends Model
         return $this->belongsToMany(Transaction::class, 'transaction_product')
                     ->withPivot('quantity', 'price')
                     ->withTimestamps();
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function rack()
+    {
+        return $this->belongsTo(Rack::class);
     }
 }

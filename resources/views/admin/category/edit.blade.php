@@ -14,6 +14,7 @@
                            class="form-control form-control-sm" 
                            id="name" 
                            name="name" 
+                           value="{{old('name', $categories->name)}}"
                            placeholder="Masukkan nama brand" 
                            required>
                 </div>

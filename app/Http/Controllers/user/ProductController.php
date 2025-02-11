@@ -5,17 +5,20 @@ namespace App\Http\Controllers\user;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
         //
-        $products = Product::all();
-        return view('user.home', compact('products'));
+        $reviews = Review::all();
+        $products = Product::where('id', $id)->first();
+        return view('user.product.detail', compact('products', 'reviews'));
     }
 
     /**
@@ -29,9 +32,22 @@ class HomeController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function storeReview(Request $request, $product_id)
     {
         //
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'nullable|string'
+        ]);
+
+        Review::create([
+            'product_id' => $product_id,
+            'user_id' => Auth::id(),
+            'rating' => $request->rating,
+            'comment' => $request->comment
+        ]);
+
+        return back()->with('success', 'Review berhasil ditambahkan!');
     }
 
     /**

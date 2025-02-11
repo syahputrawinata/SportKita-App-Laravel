@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Product;
+use App\Models\Rack;
 
 class ProductController extends Controller
 {
@@ -28,7 +29,8 @@ class ProductController extends Controller
         //
         $brands = Brand::all();
         $categories = Category::all();
-        return view('admin.product.create', compact('brands', 'categories'));
+        $racks = Rack::all();
+        return view('admin.product.create', compact('brands', 'categories', 'racks'));
     }
 
     /**
@@ -37,23 +39,34 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+        $request->merge([
+            'price' => str_replace(['Rp', ' ', '.'], '', $request->price) // Hapus "Rp", spasi, dan titik
+        ]);
+        
         // dd($request->all());
+        // dd($request->file('image'));
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0|max:999999999.99',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|mimeTypes:image/png,image/jpeg,image/jpg,image/gif|max:2048',
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
+            'rack_id' => 'required|exists:racks,id',
         ]);
+
+        $imagePath = $request->file('image')->store('products', 'public');
 
         Product::create([
             'name' => $request->name,
             'description' => $request->description,
-            'price' => $request->price,
+            'price' => (float) $request->price, // Konversi ke float agar tersimpan dengan benar
+            'image' => $imagePath,
             'stock' => $request->stock,
             'category_id' => $request->category_id,
             'brand_id' => $request->brand_id,
+            'rack_id' => $request->rack_id,
         ]);
 
         return redirect()->route('admin.AdminProductIndex')->with('success', 'Berhasil Membuat Produk!');
@@ -77,7 +90,8 @@ class ProductController extends Controller
         $products = Product::find($id);
         $brands = Brand::all();
         $categories = Category::all();
-        return view('admin.product.edit', compact('products', 'brands', 'categories'));
+        $racks = Rack::all();
+        return view('admin.product.edit', compact('products', 'brands', 'categories', 'racks'));
     }
 
     /**
@@ -93,6 +107,7 @@ class ProductController extends Controller
             'stock' => 'required|integer|min:0',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
+            'rack_id' => 'required|exists:racks,id',
         ]);
 
         Product::where ('id', $id)->update([
@@ -102,6 +117,7 @@ class ProductController extends Controller
             'stock' => $request->stock,
             'category_id' => $request->category_id,
             'brand_id' => $request->brand_id,
+            'rack_id' => $request->rack_id,
         ]);
 
         return redirect()->route('admin.AdminProductIndex')->with('success', 'Berhasil Mengedit Produk!');

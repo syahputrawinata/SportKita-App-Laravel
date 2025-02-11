@@ -81,10 +81,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('user.index')}}">Home</a>
+                        <a class="nav-link" href="{{route('cashier.index')}}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Produk</a>
+                        <a class="nav-link" href="{{route('cashiertransaction.index')}}">Produk</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('logout')}}">Logout</a>

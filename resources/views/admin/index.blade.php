@@ -9,6 +9,16 @@
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                @if (session('success'))
+                                    <div class="alert alert-success">{{ session('success') }}</div>
+                                @endif
+                                @if (session('deleted'))
+                                    <div class="alert alert-success">{{ session('deleted') }}</div>
+                                @endif
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col-xl-3 col-md-6">
                                 <div class="card bg-primary text-white mb-4">

@@ -14,6 +14,7 @@
                            class="form-control form-control-sm" 
                            id="username" 
                            name="username" 
+                           value="{{old('name', $users->username)}}"
                            placeholder="Masukkan nama user" 
                            required>
                 </div>
@@ -24,6 +25,7 @@
                            class="form-control form-control-sm" 
                            id="email" 
                            name="email" 
+                           value="{{old('email', $users->email)}}"
                            placeholder="Masukkan email" 
                            required>
                 </div>
@@ -32,9 +34,9 @@
                     <label for="role" class="form-label">Role</label>
                     <select class="form-select form-select-sm" id="role" name="role" required>
                         <option selected disabled>Pilih Role</option>
-                        <option value="admin">Admin</option>
-                        <option value="cashier">Kasir</option>
-                        <option value="user">User</option>
+                        <option value="admin" <?= $users->role === 'Admin' ? 'selected' : '' ?>>Admin</option>
+                        <option value="cashier" <?= $users->role === 'Cashier' ? 'selected' : '' ?>>Cashier</option>
+                        <option value="user" <?= $users->role === 'user' ? 'selected' : '' ?>>User</option>
                     </select>
                 </div>
 

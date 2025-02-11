@@ -6,8 +6,10 @@ use App\Http\Controllers\admin\ProductController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\admin\BrandController;
 use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\admin\RackController;
 use App\Http\Controllers\user\HomeController as UserHomeController;
 use App\Http\Controllers\user\TransactionController as UserTransactionController;
+use App\Http\Controllers\user\ProductController as UserProductController;
 use App\Http\Controllers\cashier\HomeController as CashierHomeController;
 use App\Http\Controllers\cashier\TransactionController as CashierTransactionController;
 use App\Http\Controllers\auth\LoginController;
@@ -47,6 +49,7 @@ Route::middleware(['IsLogin'])->group(function(){
 Route::middleware(['IsUser'])->group(function () {
     Route::prefix('/user')->name('user.')->group(function(){
         Route::get('/home', [UserHomeController::class, 'index'])->name('index');
+        Route::get('/product/detail/{id}', [UserProductController::class, 'index'])->name('detailproductIndex');
     });
 
     Route::prefix('/user/transaction')->name('usertransaction.')->group(function(){
@@ -56,6 +59,11 @@ Route::middleware(['IsUser'])->group(function () {
         Route::get('/print/{id}', [UserTransactionController::class, 'showStruk'])->name('showStruk');
         Route::get('/download/{id}', [UserTransactionController::class, 'downloadStruk'])->name('downloadStruk');
     });
+
+    Route::prefix('/user/product')->name('userproduct.')->group(function(){
+        Route::post('/{id}/review', [UserProductController::class, 'storeReview'])->name('storeReview');
+    });
+
 });
 
 
@@ -67,6 +75,7 @@ Route::middleware(['IsAdmin'])->group(function () {
         Route::get('/user', [UserController::class, 'index'])->name('AdminUserIndex');
         Route::get('/Brand', [BrandController::class, 'index'])->name('AdminBrandIndex');
         Route::get('/Category', [CategoryController::class, 'index'])->name('AdminCategoryIndex');
+        Route::get('/Rack', [RackController::class, 'index'])->name('AdminRackIndex');
     });
 
     Route::prefix('/admin/product')->name('adminproduct.')->group(function(){
@@ -99,6 +108,14 @@ Route::middleware(['IsAdmin'])->group(function () {
         Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('edit');
         Route::patch('/edit/{id}', [CategoryController::class, 'update'])->name('update');
         Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('/admin/rack')->name('adminrack.')->group(function(){
+        Route::get('/create', [RackController::class, 'create'])->name('create');
+        Route::post('/create', [RackController::class, 'store'])->name('store');
+        Route::get('/edit/{id}', [RackController::class, 'edit'])->name('edit');
+        Route::patch('/edit/{id}', [RackController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [RackController::class, 'destroy'])->name('destroy');
     });
 });
 
